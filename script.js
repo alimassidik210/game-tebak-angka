@@ -1,63 +1,67 @@
-// intro :
-alert("Welcome to the number guessing game");
-let playarOne = prompt("player 1 pelase enter your name :");
-let playarTwo = prompt("player 2 pelase enter your name :");
-alert("let's play ");
+// prompt user to input name for both players
+const playerOneName = prompt("Enter player one name: ");
+const playerTwoName = prompt("Enter player two name: ");
 
-let guessOne, guessTwo;
-let pointOne = 0,
-  pointTwo = 0;
-let rounde = 0;
+alert(`Welcome ${playerOneName} and ${playerTwoName}`);
 
-while (rounde <= 5) {
-  // angka pilihan computer
-  let answer = Math.ceil(Math.random() * 5);
-  console.log(answer);
+// varibale for quiz
+let playerOneScore = 0;
+let playerTwoScore = 0;
+let round = 1;
 
-  guessOne = parseInt(prompt(`${playarOne}, enter the numbers between 1 to 5`));
-  if ((guessOne, guessTwo < 0 || guessOne, guessTwo > 5)) {
-    alert("may not enter a number more than 5, less than 1");
+// loop for the game (max of 5 rounds)
+while (round <= 5) {
+  alert(`START ROUND: ${round}`);
+
+  // generate correct answer
+  const correctAnswer = Math.ceil(Math.random() * 3);
+
+  const playerOneAnswer = Number(
+    prompt(`${playerOneName} please enter the number between 1 - 3: `)
+  );
+  // validate player 1 answer
+  if (playerOneAnswer < 1 || playerOneAnswer > 3 || isNaN(playerOneAnswer)) {
+    alert("Incorrect number!");
+    continue;
+  }
+  const playerTwoAnswer = Number(
+    prompt(`${playerTwoName} please enter the number between 1 - 3: `)
+  );
+  // validate player 2 answer
+  if (playerTwoAnswer < 1 || playerTwoAnswer > 3 || isNaN(playerTwoAnswer)) {
+    alert("Incorrect number!");
     continue;
   }
 
-  if (guessOne == guessTwo) {
-    alert("cannot enter the same number");
+  // validate both answer cannot be the same
+  if (playerOneAnswer === playerTwoAnswer) {
+    alert("Both players cannot have the same answer");
     continue;
   }
 
-  if (guessOne == answer) {
-    pointOne++;
-    alert(`your guess is right :
-    __________________________
-    player 1 ${playarOne} : ${pointOne} point.
-    player 2 ${playarTwo} : ${pointTwo} point.`);
-  } else if (guessOne > answer) {
-    alert("the number you entered too large");
-  } else if (guessOne < answer) {
-    alert("the number you entered too small");
+  // determine winner
+  if (playerOneAnswer == correctAnswer) {
+    alert(`${playerOneName} wins round ${round}`);
+    playerOneScore++; // playerOneScore = playerOneScore + 1;
+  } else if (playerTwoAnswer == correctAnswer) {
+    alert(`${playerOneName} wins round ${round}`);
+    playerTwoScore++;
+  } else {
+    alert(`It's a DRAW!`);
   }
 
-  guessTwo = parseInt(prompt(`${playarTwo}, enter the numbers between 1 to 5`));
-  if (guessTwo == answer) {
-    pointTwo++;
-    alert(`your guess is right :
-    __________________________
-    player 1 ${playarOne} : ${pointOne} point.
-    player 2 ${playarTwo} : ${pointTwo} point.`);
-  } else if (guessTwo > answer) {
-    alert("the number you entered too large");
-  } else if (guessTwo < answer) {
-    alert("the number you entered too small");
-  }
+  alert(`ROUND ${round} results`);
+  alert(`${playerOneName} - ${playerOneScore}`);
+  alert(`${playerTwoName} - ${playerTwoScore}`);
 
-  rounde++;
-
-  if (rounde == 5) {
-    let question = confirm("want to play again ?");
-    if (question == true) {
-      rounde = 0;
+  if (round < 5) {
+    const nextGame = prompt("Continue? (Y/N): ");
+    if (nextGame.toUpperCase() == "Y") {
+      round++;
     } else {
-      rounde = 6;
+      break;
     }
+  } else {
+    break;
   }
 }
